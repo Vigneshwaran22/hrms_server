@@ -1,7 +1,5 @@
 package com.hb.service;
 
-import java.net.http.HttpClient;
-import java.net.http.HttpHeaders;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
@@ -12,6 +10,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,8 +18,6 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hb.parser.AccountParser;
-
-import org.json.JSONObject;
 
 @Service
 public class ZohoProcessorService {

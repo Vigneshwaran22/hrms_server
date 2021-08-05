@@ -1,10 +1,6 @@
 package com.hb.render;
 
 import java.util.List;
-import java.util.stream.Collectors;
-
-import org.springframework.http.ResponseEntity;
-import org.springframework.validation.Errors;
 
 public class ResponseData {
 
@@ -12,7 +8,14 @@ public class ResponseData {
 	private String message = "";
 	private List<String> errors = null;
 	private Object data = null;
+	private String token;
 	
+	public String getToken() {
+		return token;
+	}
+	public void setToken(String token) {
+		this.token = token;
+	}
 	public int getCode() {
 		return code;
 	}
