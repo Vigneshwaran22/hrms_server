@@ -25,12 +25,17 @@ import com.hb.model.Organization;
 import com.hb.render.CustomMessages;
 import com.hb.render.ResponseBuilder;
 import com.hb.render.ResponseData;
+import com.hb.service.S3Service;
 
 @RestController
 public class OrganizationController {
 
+	
 	@Autowired
-	private OrganizationDao organizationDao; 
+	private OrganizationDao organizationDao;
+	
+	@Autowired
+	private S3Service s3Service;
 
 	//	@RequestMapping(value="/organizations", method=RequestMethod.GET)
 	//	public 
@@ -46,7 +51,8 @@ public class OrganizationController {
 			if(organizationDao.findByCode(organization.getCode()).isPresent()) {
 				return ResponseBuilder.unprocessableErrorBuilder(responseData, CustomMessages.CODE_EXIST);
 			}
-			organization = organizationDao.saveOrganization(organization); 
+			organization = organizationDao.saveOrganization(organization);
+			s3Service.createdFolder(organization.getCode());
 		} catch(Exception exception) {	
 			return ResponseBuilder.internalErrorBuilder(responseData);
 		}
@@ -70,6 +76,7 @@ public class OrganizationController {
 
 	@RequestMapping(value="/organizations/{id}", method=RequestMethod.PUT)
 	public ResponseEntity<ResponseData> update(@PathVariable Long id, @RequestBody @Valid Organization organization, Errors errors) {
+		System.out.println("sdfsdfsdfsdfdsfsdf");
 		ResponseData responseData = new ResponseData();
 		try {
 			if(!organizationDao.findById(id).isPresent()) {
@@ -118,14 +125,14 @@ public class OrganizationController {
 		}		
 	}
 
-	@GetMapping("/organizations/filter")
-	public ResponseEntity<Map<String, Object>> getAllTutorials(@RequestParam(required = false) String name, @RequestParam(defaultValue = "0") int page,
-			@RequestParam(defaultValue = "3") int size) {
+	@GetMapping("/organizations")
+	public ResponseEntity<Map<String, Object>> getAllTutorials(@RequestParam(required = false) String search, @RequestParam(defaultValue = "0") int offset,
+			@RequestParam(defaultValue = "10") int max) {
 
 		try {
 			Map<String, Object> response = new HashMap<>();
-			Pageable paging = PageRequest.of(page, size);
-			organizationDao.filterOrganizations(name, paging, response);
+			Pageable paging = PageRequest.of(offset, max);
+			organizationDao.filterOrganizations(search, paging, response);
 			return new ResponseEntity<>(response, HttpStatus.OK);
 		} catch (Exception e) {
 			return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);

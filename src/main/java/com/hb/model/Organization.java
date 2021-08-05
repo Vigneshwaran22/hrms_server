@@ -23,7 +23,7 @@ public class Organization {
 	@NotNull(message = "Code must be required...")
 	private String code;
 	
-	private boolean activeStatus;
+	private boolean activeStatus = true;
 	
 	public Organization() {	}
 	

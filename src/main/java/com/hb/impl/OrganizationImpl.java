@@ -53,7 +53,7 @@ public class OrganizationImpl implements OrganizationDao, Serializable {
 
 		organizations = pageTuts.getContent();
 		
-		response.put("organizations", organizations);
+		response.put("datas", organizations);
 		response.put("currentPage", pageTuts.getNumber());
 		response.put("totalItems", pageTuts.getTotalElements());
 		response.put("totalPages", pageTuts.getTotalPages());
